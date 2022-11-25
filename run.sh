@@ -1,0 +1,1 @@
+docker run -it -d --name pyDialer -v {PWD}:/apps/ --network host python:3.10.8-slim-buster
