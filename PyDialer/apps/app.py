@@ -26,5 +26,5 @@ async def home(request: Request,endpoint: str):
 async def home(request: Request,agent: str = Form(),Number:str = Form()):
     print(agent,Number)
     originate(endpoint=Number,callerid=f'"OnlineMagic"<{11111}>',context='test-conf',extension=f'{agent}CONF')
-    return RedirectResponse(f'/home/?endpoint={agent}')
+    return RedirectResponse(f'/home/?endpoint={agent}' ,status_code=303)
 
