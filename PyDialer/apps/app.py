@@ -25,6 +25,6 @@ async def home(request: Request,endpoint: str):
 @app.post("/dial/")
 async def home(request: Request,agent: str = Form(),Number:str = Form()):
     print(agent,Number)
-    originate(endpoint=f"PJSIP/{Number}",callerid=f'""<{agent}>',context='test-conf',extension=f'{agent}CONF')
+    originate(endpoint=Number,callerid=f'"OnlineMagic"<{11111}>',context='test-conf',extension=f'{agent}CONF')
     return 'dialed'
 
