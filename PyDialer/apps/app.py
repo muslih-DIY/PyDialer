@@ -18,7 +18,7 @@ async def loginpage(request: Request):
     return templates.TemplateResponse(name="index.html",context={"request": request})
 
 @app.get("/home/", response_class=HTMLResponse)
-async def loginpage(request: Request,endpoint: str):
+async def homenpage(request: Request,endpoint: str):
     
     return templates.TemplateResponse(name="agenthome.html",context={"request": request,"endpoint":endpoint})
 
@@ -30,7 +30,7 @@ async def login(request: Request,endpoint: str):
     
 
 @app.post("/dial/" , response_class=HTMLResponse)
-async def home(request: Request,agent: str = Form(),Number:str = Form()):
+async def dialpage(request: Request,agent: str = Form(),Number:str = Form()):
     print(agent,Number)
     originate(
         endpoint=f'Local/{Number}@outbound-local',
