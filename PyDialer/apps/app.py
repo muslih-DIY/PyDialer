@@ -26,6 +26,7 @@ async def homenpage(request: Request,endpoint: str):
 @app.post("/log-post/", response_class=HTMLResponse)
 async def login(request: Request,endpoint: str):
     originate(endpoint=f'PJSIP/{endpoint}',callerid='"Call-Controller"<11111>',context='agent-conf',extension=f'{endpoint}CONF')
+    return templates.TemplateResponse(name="agenthome.html",context={"request": request,"endpoint":endpoint})
     return RedirectResponse(f'/home/?endpoint={endpoint}' ,status_code=303)
     
 
