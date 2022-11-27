@@ -1,1 +1,1 @@
-docker run -it -d --name pyDialer -p 8000:8000 -v ${PWD}:/apps/ --network host python:3.10.8-slim-buster
+docker run -it -d --rm --name  pyDialer -p 8000:8000 -v ${PWD}:/apps/ --network host python:3.10.8-slim-buster bash

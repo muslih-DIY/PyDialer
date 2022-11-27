@@ -19,12 +19,16 @@ async def login(request: Request):
 
 @app.get("/home/", response_class=HTMLResponse)
 async def home(request: Request,endpoint: str):
-    originate(endpoint=endpoint,callerid='"Call-Controller"<11111>',context='test-conf',extension=f'{endpoint}CONF')
+    originate(endpoint=f'PJSIP/{endpoint}',callerid='"Call-Controller"<11111>',context='agent-conf',extension=f'{endpoint}CONF')
     return templates.TemplateResponse(name="agenthome.html",context={"request": request,"endpoint":endpoint})
 
 @app.post("/dial/" , response_class=HTMLResponse)
 async def home(request: Request,agent: str = Form(),Number:str = Form()):
     print(agent,Number)
-    originate(endpoint=Number,callerid=f'"OnlineMagic"<{11111}>',context='test-conf',extension=f'{agent}CONF')
+    originate(
+        endpoint=f'Local/{Number}@outbound-local',
+        callerid=f'"Customer"<{Number}>',
+        context='outbound-conf',
+        extension=f'{agent}CONF')
     return RedirectResponse(f'/home/?endpoint={agent}' ,status_code=303)
 
