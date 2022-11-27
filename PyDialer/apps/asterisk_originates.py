@@ -15,5 +15,5 @@ def originate(endpoint,callerid=None,context='from-internal',extension='s',prior
     action = pystrix.ami.core.Login(
         _USERNAME, _PASSWORD, challenge=challenge_response.result['Challenge'])
     manager.send_action(action)
-    manager.send_action(Originate_Context(channel=f'PJSIP/{endpoint}',callerid=callerid,context=context, extension=extension,priority=priority))
+    manager.send_action(Originate_Context(channel=endpoint,callerid=callerid,context=context, extension=extension,priority=priority))
     manager.send_action(pystrix.ami.core.Logoff())
