@@ -13,14 +13,21 @@ templates = Jinja2Templates('templates')
 
 
 @app.get("/login/", response_class=HTMLResponse)
-async def login(request: Request):
+async def loginpage(request: Request):
     
     return templates.TemplateResponse(name="index.html",context={"request": request})
 
 @app.get("/home/", response_class=HTMLResponse)
-async def home(request: Request,endpoint: str):
-    originate(endpoint=f'PJSIP/{endpoint}',callerid='"Call-Controller"<11111>',context='agent-conf',extension=f'{endpoint}CONF')
+async def loginpage(request: Request,endpoint: str):
+    
     return templates.TemplateResponse(name="agenthome.html",context={"request": request,"endpoint":endpoint})
+
+
+@app.post("/login/", response_class=HTMLResponse)
+async def login(request: Request,endpoint: str):
+    originate(endpoint=f'PJSIP/{endpoint}',callerid='"Call-Controller"<11111>',context='agent-conf',extension=f'{endpoint}CONF')
+    return RedirectResponse(f'/home/?endpoint={endpoint}' ,status_code=303)
+    
 
 @app.post("/dial/" , response_class=HTMLResponse)
 async def home(request: Request,agent: str = Form(),Number:str = Form()):
@@ -30,5 +37,6 @@ async def home(request: Request,agent: str = Form(),Number:str = Form()):
         callerid=f'"Customer"<{Number}>',
         context='outbound-conf',
         extension=f'{agent}CONF')
+
     return RedirectResponse(f'/home/?endpoint={agent}' ,status_code=303)
 
