@@ -1,0 +1,1 @@
+from PyDialer.core import app
