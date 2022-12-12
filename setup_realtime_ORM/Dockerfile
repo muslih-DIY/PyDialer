@@ -25,7 +25,6 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 ENV PYTHONPATH="/apps/:$PYTHONPATH"
 WORKDIR /apps
 COPY entrypoint.sh .
-COPY ./AGISERVER/ ./
 CMD [ "bash","./entrypoint.sh" ]
 # CMD ["python3", "/apps/Agiserver/core/main.py", "host=0.0.0.0"]
 # python3 /apps/Agiserver/core/main.py host=0.0.0.0
