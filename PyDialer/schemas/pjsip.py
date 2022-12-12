@@ -12,7 +12,6 @@ class Transport(BasicPJModel):
     external_signaling_address:Optional[str]=None
 
 
-
 class BasicEndpoint(BaseModel):
     id:str
     transport:Optional[str] = None
