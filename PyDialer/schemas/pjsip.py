@@ -1,5 +1,10 @@
 from typing import Optional
 from pydantic import BaseModel, EmailStr
+from enum import Enum
+
+class yesno(str,Enum):
+    yes = 'yes'
+    no = 'no'
 
 
 class BasicPJModel(BaseModel):
@@ -29,5 +34,5 @@ class BasicPsAOR(BaseModel):
     contact : Optional[str] = ''
     max_contacts :Optional[int] = 1
     minimum_expiration : Optional[int] = 60
-    remove_existing : Optional[str] ='yes'
+    remove_existing : yesno=yesno.yes
     qualify_frequency : Optional[int] =60

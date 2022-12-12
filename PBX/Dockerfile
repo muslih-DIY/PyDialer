@@ -94,5 +94,5 @@ EXPOSE 10000-10099/udp
 ## any of the service you can use to start the container
 # CMD ["bash"]
 # CMD ["asterisk", "-cvv"]
-USER asterisk
+USER root
 CMD ["bash", "/entrypoint.sh"]
