@@ -2,6 +2,7 @@ from sqlalchemy import Column,Integer,String,UniqueConstraint
 from ..crud import mixin
 from ..depends.db import Model
 from PyDialer.schemas.pjsip import Transport
+
 class ps_transports(mixin.CRUDMixin[Transport],Model.BaseORM):
     id = Column(String(40),primary_key=True, index=True) 
     async_operations = Column(Integer)  

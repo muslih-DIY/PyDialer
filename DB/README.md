@@ -9,3 +9,16 @@ docker run -d \
 	-v /PYPBX/pgdata:/var/lib/postgresql/data \
 	--network Pydialer_bridge
     postgres:14.4-bullseye
+
+
+
+docker exec -it DB-PYPBX psql -U AsteriskPBX -d PYPBX-RDB
+
+docker exec -it DB-PYPBX psql -U AsteriskPBX -d PYPBX-RDB -c "create database test_ast_rdb;"
+
+docker exec -it DB-PYPBX psql -U AsteriskPBX -d test_ast_rdb
+
+docker exec -it DB-PYPBX mkdir /asterisk/
+
+
+docker exec -it DB-PYPBX pg_dump -U AsteriskPBX -d test_ast_rdb 
