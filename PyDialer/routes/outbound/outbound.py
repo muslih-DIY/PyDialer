@@ -1,14 +1,9 @@
-from fastapi import APIRouter,Request,Form
+from fastapi import Request,Form
 from fastapi.responses import HTMLResponse,JSONResponse
 from pydantic import BaseModel
 
 from PyDialer.depends.asterisk import asterisk
-
-
-router = APIRouter(
-    prefix="/outbound",
-    tags=["outbound"]
-    )
+from .base_route import router
 
 class Agent(BaseModel):
     endpoint: str

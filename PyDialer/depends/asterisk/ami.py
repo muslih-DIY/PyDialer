@@ -104,7 +104,7 @@ class Asterisk_Ami():
         variables: dict = {},account: str = None,async_: bool = True):
         "originate a call to extension and join to another extension"
         self._manager.send_action(
-            ami.Originate_Context(channel,context,extension,priority,timeout,callerid,variables,account,async_)
+            core.Originate_Context(channel,context,extension,priority,timeout,callerid,variables,account,async_)
             )
 
         
