@@ -1,8 +1,9 @@
+from typing import List
 from fastapi import APIRouter,Request,Form,Depends,Header,status
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import HTTPException
 from sqlalchemy import exc
-from PyDialer.schemas.user import UserCreate,UserLogin
+from PyDialer.schemas.user import UserCreate,UserLogin,Users
 from PyDialer.depends.db import get_db
 from PyDialer.models import User
 from PyDialer.exras.UserManager import (
@@ -50,3 +51,11 @@ async def logout(
         return JSONResponse(status_code=403,content='Your Not Allowed, Wrong Auths')
     clear_user(user,tkn)
     return JSONResponse('Ok')
+
+@router.post('/users', response_model=List[Users])
+async def users_details(
+    request: Request,db=Depends(get_db)
+    ):
+    users = User.get_all(db = db) 
+    print(users[0])
+    return [u.dict() for u in users]

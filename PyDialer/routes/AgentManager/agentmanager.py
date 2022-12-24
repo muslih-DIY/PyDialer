@@ -6,8 +6,7 @@ from sqlalchemy import exc
 from sqlalchemy.orm import Session
 from pydantic import BaseModel,validator
 from PyDialer.exras.UserManager import super_user_information,get_db
-from PyDialer.models import User,ps_endpoints
-
+from PyDialer.models import User,ps_endpoints,UserEndpoint
 
 router = APIRouter(
     prefix="/AgentManager",
@@ -48,7 +47,7 @@ async def update_agent_endpoint(request:Request,agent_endpoint:agent_endpoint_se
             )             
 
     try:
-        user_end = UserEndpoint.create(db=db,user=user,endpoint=ps_end)
+        user_end = UserEndpoint.create(db=db,user_id=user.id,endpoint_id=ps_end.id)
 
     except exc.IntegrityError:
         raise HTTPException(
@@ -62,10 +61,13 @@ async def update_agent_endpoint(request:Request,agent_endpoint:agent_endpoint_se
 async def update_agent_endpoint(request:Request,agent_endpoint:agent_enpoint,db=Depends(get_db)):
     "This API delete the relation between user and endpoint"
     agent_endpoint_rel = {k:v for k,v in agent_endpoint.dict().items() if v is not None}
+
     try:
         user_endpoint = UserEndpoint.get_filter_by(**agent_endpoint_rel,db=db).one()
     except exc.NoResultFound:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail='Details not found')
+    except exc.MultipleResultsFound:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail='Multiple Endpoint Found , Please pass endpoint details.')
 
     user_endpoint.delete(db=db)
 

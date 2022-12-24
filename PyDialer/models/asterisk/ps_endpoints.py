@@ -147,5 +147,3 @@ class ps_endpoints(mixin.CRUDMixin,Model.BaseORM):
 	codec_prefs_outgoing_answer = Column('codec_prefs_outgoing_answer',String(128))
 	geoloc_incoming_call_profile = Column('geoloc_incoming_call_profile',String(80))
 
-	user = relationship('UserEndpoint',back_populates='endpoint',uselist=False)
-

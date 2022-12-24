@@ -82,7 +82,7 @@ async def endpoint_remove(request: Request,endpointid:PjsipBaseSchem,db=Depends(
     return JSONResponse('OK')
 
 
-@router.get("/endpoint/", response_model=Union[BasicEndpoint,BasicPsAOR,BasicPsAuth])
+@router.get("/endpoint/", response_model=List[BasicEndpoint])
 async def endpoint_search(request: Request,id:Optional[str]='all',db=Depends(get_db)):
     if id=='all':
         endpoint = asterisk.ps_endpoints.get_all(db = db)        
