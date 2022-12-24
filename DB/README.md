@@ -7,7 +7,8 @@ docker run -d \
     -e POSTGRES_DB=PYPBX-RDB \
 	-e PGDATA=/var/lib/postgresql/data/pgdata \
 	-v /PYPBX/pgdata:/var/lib/postgresql/data \
-	--network Pydialer_bridge
+	--network Pydialer_bridge \
+	-p 5432:5432 \
     postgres:14.4-bullseye
 
 

@@ -35,7 +35,7 @@ class CRUDMixin(Generic[ModelType]):
     def update(self,db : Session,commit=True, **kwargs):
         for attr, value in kwargs.items():
             setattr(self, attr, value)
-        return commit and self.save(db) or self
+        return self.save(db,commit) 
 
     def save(self,db : Session, commit=True):
         db.add(self)
@@ -46,6 +46,16 @@ class CRUDMixin(Generic[ModelType]):
     def delete(self,db : Session, commit=True):
         db.delete(self)
         return commit and db.commit()
-    
+
+    def reload(self,db:Session):
+        updated = self.__class__.get(db=db,id=self.id)
+        for attr ,value in updated.__dict__.items():
+            setattr(self, attr, value)
+        return self
+
+    def refresh(self,db : Session):
+        db.refresh(self)
+        return self
+
     def dict(self):
         return self.__dict__

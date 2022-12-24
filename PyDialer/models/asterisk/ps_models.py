@@ -1,6 +1,7 @@
-from sqlalchemy import Column,Integer,String,UniqueConstraint
-from ..crud import mixin
-from ..depends.db import Model
+from sqlalchemy import Column,Integer,String,UniqueConstraint,LargeBinary
+from sqlalchemy.dialects.postgresql import ENUM
+from ...crud import mixin
+from ...depends.db import Model
 from PyDialer.schemas.pjsip import Transport
 
 class ps_transports(mixin.CRUDMixin[Transport],Model.BaseORM):

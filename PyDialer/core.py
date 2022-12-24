@@ -2,16 +2,17 @@ from fastapi import FastAPI,Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from PyDialer.routes import user
-from PyDialer.routes import outbound
-from PyDialer.routes import pjsip
+from PyDialer.routes import (
+    user ,Agent,pjsip,AgentManager
+    )
 
 #Model.BaseORM.metadata.create_all(bind=session.engin)
 
 app = FastAPI()
-app.include_router(outbound.router)
+app.include_router(Agent.router)
 app.include_router(user.router)
 app.include_router(pjsip.router)
+app.include_router(AgentManager.router)
 
 app.mount('/static',StaticFiles(directory="PyDialer/static"), name="static")
 templates = Jinja2Templates('PyDialer/templates')

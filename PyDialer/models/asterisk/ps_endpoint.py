@@ -1,12 +1,9 @@
 from sqlalchemy import Column,Integer,String,Boolean
-from enum import Enum
-from ..crud import mixin
-from ..depends.db import Model
+from PyDialer.crud import mixin
+from PyDialer.depends.db import Model
 from PyDialer.schemas.pjsip import BasicEndpoint
+from PyDialer.schemas import asterisk_enum as astenum
 
-class yesno(Enum):
-    yes = 'yes'
-    no = 'no'
 
 class ps_aors(mixin.CRUDMixin,Model.BaseORM):
     id = Column(String(40),primary_key=True, index=True) 
@@ -62,7 +59,7 @@ class ps_endpoint(mixin.CRUDMixin,Model.BaseORM):
     callerid = Column(String(40))
     callerid_privacy  = Column(String(40)) 
     callerid_tag = Column(String(40))
-    l00rel  = Column('100rel',String(40))
+    hundredrel  = Column('100rel',String(40))
     aggregate_mwi = Column(String(40))
     trust_id_inbound = Column(String(40))
     trust_id_outbound = Column(String(40))

@@ -14,7 +14,7 @@ docker exec -it DB-PYPBX psql -U AsteriskPBX -d test_ast_rdb
 
 docker exec -it DB-PYPBX mkdir /asterisk/
 
-docker cp ./postgresql/ PYPBX:/asterisk/
+docker cp PBX/postgresql/ DB-PYPBX:/asterisk/
 
 docker exec  DB-PYPBX psql -U AsteriskPBX -d test_ast_rdb -f /asterisk/postgresql/postgresql_config.sql
 

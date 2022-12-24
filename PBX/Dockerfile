@@ -7,8 +7,8 @@ ENV ASTERISK_VERSION=18.14.0
 RUN mkdir /usr/src/asterisk
 WORKDIR /usr/src/asterisk
 
-ADD http://downloads.asterisk.org/pub/telephony/asterisk/releases/asterisk-${ASTERISK_VERSION}.tar.gz asterisk.tar.gz
-#COPY asterisk-${ASTERISK_VERSION}.tar.gz ./asterisk.tar.gz
+#ADD http://downloads.asterisk.org/pub/telephony/asterisk/releases/asterisk-${ASTERISK_VERSION}.tar.gz asterisk.tar.gz
+COPY asterisk-${ASTERISK_VERSION}.tar.gz ./asterisk.tar.gz
 COPY ./third-party/tmp/* /tmp/
 
 RUN tar --strip-components 1 -xzf asterisk.tar.gz
@@ -69,12 +69,12 @@ RUN apt-get update -qq && \
         menuselect/menuselect --enable codec_opus menuselect.makeopts && \
         make all && \
         make install && \
-        make samples && \
+        make samples 
         # make basic-pbx && \
         # make progdocs
-        chown -R asterisk:asterisk /var/*/asterisk && \
-        chmod -R 750 /var/spool/asterisk 
-        # Uncomment this if you want to remove the asterisk source files.
+        # chown -R asterisk:asterisk /var/*/asterisk && \
+        # chmod -R 750 /var/spool/asterisk 
+# Uncomment this if you want to remove the asterisk source files.
 
 #RUN rm -rf /usr/src/asterisk 
 
