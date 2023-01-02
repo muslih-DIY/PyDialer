@@ -1,11 +1,9 @@
-from fastapi import FastAPI,Request
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 from PyDialer.routes import (
-    user ,Agent,pjsip,AgentManager
+    user,Agent,pjsip,AgentManager
     )
-
+from PyDialer import frontend
 #Model.BaseORM.metadata.create_all(bind=session.engin)
 
 app = FastAPI()
@@ -13,10 +11,9 @@ app.include_router(Agent.router)
 app.include_router(user.router)
 app.include_router(pjsip.router)
 app.include_router(AgentManager.router)
+app.include_router(frontend.router)
 
 app.mount('/static',StaticFiles(directory="PyDialer/static"), name="static")
-templates = Jinja2Templates('PyDialer/templates')
-
 
 # @app.get("/login/", response_class=HTMLResponse)
 # async def loginpage(request: Request):
