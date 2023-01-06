@@ -22,3 +22,5 @@ docker exec  DB-PYPBX psql -U AsteriskPBX -d test_ast_rdb -f /asterisk/postgresq
 
 docker exec  DB-PYPBX psql -U AsteriskPBX -d test_ast_rdb -f /asterisk/postgresql/postgresql_voicemail.sql
 
+
+docker run -itd --name asterisk -p 5038:5038/tcp  -p 5060:5060/tcp -p 5060:5060/udp -p 10000-10099:10000-10099/udp --network host -v /mnt/d/myrepos/PyDialer/PBX/config/:/etc/asterisk/conf asterisk:18-slim bash

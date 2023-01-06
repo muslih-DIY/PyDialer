@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker,Session
+from fastapi import Request
 
 #DATABASE_URL = "sqlite:///./database.db"
 
@@ -18,3 +19,8 @@ def get_db():
     finally:
         db.close()
 
+async def update_db(request: Request):
+    db:Session = next(get_db())
+    setattr(request,'db',db)
+
+    

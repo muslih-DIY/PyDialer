@@ -62,6 +62,7 @@ class Asterisk_Ami():
                     self._password,
                     challenge=challenge_response.result['Challenge']
                     )
+                self._manager.send_action(log_action)
             else:
                 self._kill_flag = True
                 raise ConnectionError(
@@ -103,7 +104,7 @@ class Asterisk_Ami():
         priority: int=1,timeout = None,callerid: str = None,
         variables: dict = {},account: str = None,async_: bool = True):
         "originate a call to extension and join to another extension"
-        self._manager.send_action(
+        return self._manager.send_action(
             core.Originate_Context(channel,context,extension,priority,timeout,callerid,variables,account,async_)
             )
 

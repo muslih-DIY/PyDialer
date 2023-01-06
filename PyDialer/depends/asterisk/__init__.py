@@ -1,9 +1,10 @@
 from .ami import Asterisk_Ami
 
 _HOST = 'localhost'
-_USERNAME = 'admin'
-_PASSWORD = '642d10ac25fe5738a35cdeee77244cf3'
+_USERNAME = 'Pydialer'
+_PASSWORD = 'admin123'
 
 asterisk = Asterisk_Ami(_HOST,user=_USERNAME,password=_PASSWORD)
 
-# asterisk.connect()
+#asterisk.connect()
+print("manager got connected :",asterisk.is_alive())

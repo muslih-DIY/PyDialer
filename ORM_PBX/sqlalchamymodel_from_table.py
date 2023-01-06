@@ -56,6 +56,7 @@ def typemap(c_type,size,usertype,nullable,c,t):
     if usertype:return f"Sql_{c_type},nullable=False" if nullable=='NO' else f"Sql_{c_type}"
     print(c_type,size,usertype,nullable,c,t)
     print("unknown type")
+
 with con.cursor() as cur:   
     cur.execute(sql_tables)
     tables = [c[0] for c in cur.fetchall()]
@@ -73,7 +74,18 @@ with con.cursor() as cur:
                     c,nullable,c_type,size,usertype = r
                     f.writelines(f"\t{c} = Column('{c}',{typemap(c_type,size,usertype,nullable,c,t)})\n")
         
-            
+    with open(os.path.join('schemas',f"__init__.py"),'w') as initf:
+        for t in tables:
+            initf.writelines(f"\nfrom .{t} import {t}")
+            cur.execute(sql_table_columns+f"'{t}'")
+            with open(os.path.join('models',f"{t}.py"),'w') as f:
+                f.writelines(model_base)
+                f.writelines(f"\nclass {t}({base_model_class}):\n")
+                for r in cur.fetchall():
+                    c,nullable,c_type,size,usertype = r
+                    f.writelines(f"\t{c} = Column('{c}',{typemap(c_type,size,usertype,nullable,c,t)})\n")
+        
+                       
 
     
     with open(os.path.join('enum_schema',"schemas.py"),'w') as f:

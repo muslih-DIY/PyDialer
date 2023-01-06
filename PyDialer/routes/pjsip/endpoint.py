@@ -2,10 +2,10 @@ from typing import Optional,List,Union
 from fastapi import Request,Depends,status
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import HTTPException
+from sqlalchemy.orm.session import Session
 from sqlalchemy import exc
-from PyDialer.depends.db import get_db
 from PyDialer.schemas.pjsip import (
-    BasicEndpoint,PjsipBaseSchem,
+    BasicEndpoint,PjsipBaseSchem,DBEndpoints,
     BasicPsAuth,BasicPsAOR,BasicUpdateEndpoint)
 from PyDialer.models import asterisk
 from .base_route import router
@@ -17,7 +17,7 @@ ps_auth_id = lambda id :f"{id}-auth"
 async def endpoint_create(
     request: Request,endpoint:BasicEndpoint,
     Auth:BasicPsAuth,AOR:BasicPsAOR):
-    db = request.dbs
+    db:Session = request.db
     user = request.User
     endpoint.callerid = endpoint.callerid or f"'{Auth.username}' <{endpoint.id}>" 
     try:  
@@ -43,20 +43,20 @@ async def endpoint_update(
     pjsip:PjsipBaseSchem,
     endpoint:Optional[BasicUpdateEndpoint] = None,
     Auth:Optional[BasicPsAuth]= None,
-    AOR:Optional[BasicPsAOR]= None,
-    db=Depends(get_db)):
+    AOR:Optional[BasicPsAOR]= None):
     callerid = None
+    db:Session = request.db
     if Auth:
         ps_auth = asterisk.ps_auths.get(db = db,id=ps_auth_id(pjsip.id))
         if ps_auth:
-            ps_auth.update(db=db,commit=False,**Auth.dict())
+            ps_auth.update(db=db,commit=False,**{k:v for k,v in Auth.dict().items() if v} )
         if Auth.username:
             callerid = f"'{Auth.username}' <{pjsip.id}>"
     
     if AOR:
         ps_aor = asterisk.ps_aors.get(db = db,id=pjsip.id)
         if ps_aor:
-            ps_aor.update(db=db,commit=False,**AOR.dict())
+            ps_aor.update(db=db,commit=False,**{k:v for k,v in AOR.dict().items() if v})
 
     ps_endpoint = asterisk.ps_endpoints.get(db = db,id=pjsip.id) 
     if not ps_endpoint:
@@ -65,14 +65,15 @@ async def endpoint_update(
         ps_endpoint.callerid = callerid
     
     if endpoint:
-        ps_endpoint.update(db=db,commit=False,**endpoint.dict())
+        ps_endpoint.update(db=db,commit=False,**{k:v for k,v in endpoint.dict().items() if v})
 
     db.commit() 
 
     return JSONResponse('OK')
 
 @router.post("/endpoint/remove", response_class=JSONResponse)
-async def endpoint_remove(request: Request,endpointid:PjsipBaseSchem,db=Depends(get_db)):
+async def endpoint_remove(request: Request,endpointid:PjsipBaseSchem):
+    db:Session = request.db
     endpoint = asterisk.ps_endpoints.get(db = db,id=endpointid.id)
     if not endpoint:
         raise HTTPException(status_code=200,detail='Details not found')
@@ -82,8 +83,9 @@ async def endpoint_remove(request: Request,endpointid:PjsipBaseSchem,db=Depends(
     return JSONResponse('OK')
 
 
-@router.get("/endpoint/", response_model=List[BasicEndpoint])
-async def endpoint_search(request: Request,id:Optional[str]='all',db=Depends(get_db)):
+@router.get("/endpoint/", response_model=List[DBEndpoints])
+async def endpoint_search(request: Request,id:Optional[str]='all'):
+    db:Session = request.db
     if id=='all':
         endpoint = asterisk.ps_endpoints.get_all(db = db)        
     else:
@@ -91,5 +93,4 @@ async def endpoint_search(request: Request,id:Optional[str]='all',db=Depends(get
         endpoint = endpoint and [endpoint] or None
     if not endpoint:
         raise HTTPException(status_code=200,detail='Details not found')
-    print(endpoint[0].dict())
-    return [t.dict() for t in endpoint]
+    return endpoint

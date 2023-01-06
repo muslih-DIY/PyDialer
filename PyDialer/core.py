@@ -1,15 +1,18 @@
-from fastapi import FastAPI,Request
+from fastapi import FastAPI,Request,Depends
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from PyDialer.routes import (
-    user ,Agent,pjsip,AgentManager
+    user,admin ,Agent,pjsip,AgentManager
     )
-
+from PyDialer.depends.db.session import update_db
 #Model.BaseORM.metadata.create_all(bind=session.engin)
 
-app = FastAPI()
+app = FastAPI(
+    dependencies=[Depends(update_db)]
+    )
 app.include_router(Agent.router)
+app.include_router(admin.router)
 app.include_router(user.router)
 app.include_router(pjsip.router)
 app.include_router(AgentManager.router)

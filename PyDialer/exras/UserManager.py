@@ -1,8 +1,6 @@
-from fastapi import Header,Request
-
+from fastapi import Header,Request,Depends
 from fastapi.exceptions import HTTPException
 from sqlalchemy.orm import Session
-from PyDialer.depends.db import get_db
 from PyDialer.depends.secrets import generate_token
 from PyDialer.models import User
 
@@ -31,23 +29,28 @@ def validate_user(user):
     return tkn
 
 
-async def user_information(request: Request,tkn=Header()):
+async def current_user(request: Request,tkn=Header()):
     user = validate_token(tkn)
-    if user:
-        db:Session = next(get_db()) 
+    if user and user.is_active:
+        db:Session = request.db
         if user.reload(db):
             setattr(request,'User',user)
-            setattr(request,'dbs',db)
-            return user,db
-    raise HTTPException(status_code=403,detail='Your Not Allowed, Wrong Auths')
+            return user
+    raise HTTPException(status_code=403,detail='Your Not Allowed, Wrong Auths or Inactive account')
     
 
-async def super_user_information(request: Request,tkn=Header()):
-    user = validate_token(tkn)
-    db:Session = next(get_db())
-    if user and user.reload(db) and user.is_superuser:
-        setattr(request,'dbs',db)
-        setattr(request,'User',user)
-        return user,db
-    raise HTTPException(status_code=403,detail='Your Not Allowed')
-    
+class have_role:
+    """
+    all : super, admin , etc..
+    """
+    def __init__(self,roles:list=['all']) -> None:
+        self.roles = roles
+
+    def __call__(self,user:User = Depends(current_user)):
+        if not user.is_active:
+            raise HTTPException(status_code=403, detail="User is inactive")
+        if 'all' not in self.roles or user.is_superuser and 'super' in self.roles or user.role not in self.roles:
+            raise HTTPException(status_code=403, detail="Operation not permitted")
+
+
+        

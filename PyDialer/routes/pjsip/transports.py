@@ -5,14 +5,15 @@ from fastapi.responses import JSONResponse
 from fastapi import status
 from fastapi.exceptions import HTTPException
 from sqlalchemy import exc
-from PyDialer.depends.db import get_db
+from PyDialer.depends.db import Session
 from PyDialer.models import asterisk
 from .base_route import router
-from PyDialer.schemas.pjsip import Transport,PjsipBaseSchem
+from PyDialer.schemas.pjsip import Transport,PjsipBaseSchem,DBTransport
 
 
 @router.post("/transport/create", response_class=JSONResponse)
-async def transpot_create(request: Request,transport:Transport,db=Depends(get_db)):
+async def transpot_create(request: Request,transport:Transport):
+    db:Session = request.db
     try:
 
         asterisk.ps_transports.create(
@@ -27,8 +28,8 @@ async def transpot_create(request: Request,transport:Transport,db=Depends(get_db
     return JSONResponse('OK')
 
 @router.post("/transport/update", response_class=JSONResponse)
-async def transport_update(request: Request,transport:Transport,db=Depends(get_db)):
-    
+async def transport_update(request: Request,transport:Transport):
+    db:Session = request.db
     trans = asterisk.ps_transports.get(db = db,id=transport.id)
     if not trans:
         raise HTTPException(status_code=200,detail='Details not found')   
@@ -36,7 +37,8 @@ async def transport_update(request: Request,transport:Transport,db=Depends(get_d
     return JSONResponse('OK')
 
 @router.post("/transport/remove", response_class=JSONResponse)
-async def transpot_remove(request: Request,transport:PjsipBaseSchem,db=Depends(get_db)):
+async def transpot_remove(request: Request,transport:PjsipBaseSchem):
+    db:Session = request.db
     transp = asterisk.ps_transports.get(
         db = db,
         id=transport.id)
@@ -45,8 +47,9 @@ async def transpot_remove(request: Request,transport:PjsipBaseSchem,db=Depends(g
     transp.delete(db = db)
     return JSONResponse('OK')
 
-@router.get("/transport/", response_model=List[Transport])
-async def transpot_search(request: Request,id:Optional[str]='all',db=Depends(get_db)):
+@router.get("/transport/", response_model=List[DBTransport])
+async def transpot_search(request: Request,id:Optional[str]='all'):
+    db:Session = request.db
     if id=='all':
         transport = asterisk.ps_transports.get_all(db = db)        
     else:
@@ -54,4 +57,4 @@ async def transpot_search(request: Request,id:Optional[str]='all',db=Depends(get
         transport = transport and [transport] or None
     if not transport:
         raise HTTPException(status_code=200,detail='Details not found')
-    return [t.dict() for t in transport]
+    return transport

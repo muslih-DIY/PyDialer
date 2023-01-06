@@ -5,7 +5,7 @@ from fastapi.exceptions import HTTPException
 from sqlalchemy import exc
 from sqlalchemy.orm import Session
 from pydantic import BaseModel,validator
-from PyDialer.exras.UserManager import super_user_information,get_db
+from PyDialer.exras.UserManager import have_role
 from PyDialer.models import User,ps_endpoints,UserEndpoint
 
 router = APIRouter(
@@ -30,9 +30,9 @@ class agent_enpoint(BaseModel):
         return endpoint_id
 
 @router.post("/user_endpoint_relation/create", response_class=JSONResponse)
-async def update_agent_endpoint(request:Request,agent_endpoint:agent_endpoint_setup,db=Depends(get_db)):
+async def update_agent_endpoint(request:Request,agent_endpoint:agent_endpoint_setup):
     "This API connect the user with the pjsip endpoint"
-
+    db:Session = request.db
     user = User.get(db,agent_endpoint.user_id)
     if not user:
         raise HTTPException(
@@ -58,8 +58,9 @@ async def update_agent_endpoint(request:Request,agent_endpoint:agent_endpoint_se
 
 
 @router.post("/user_endpoint_relation/remove", response_class=JSONResponse)
-async def update_agent_endpoint(request:Request,agent_endpoint:agent_enpoint,db=Depends(get_db)):
+async def update_agent_endpoint(request:Request,agent_endpoint:agent_enpoint):
     "This API delete the relation between user and endpoint"
+    db:Session = request.db
     agent_endpoint_rel = {k:v for k,v in agent_endpoint.dict().items() if v is not None}
 
     try:

@@ -13,7 +13,13 @@ class Agent(BaseModel):
 @router.post("/login/", response_class=JSONResponse)
 async def login(request: Request,Agent:Agent):
     print(Agent.endpoint)
-    asterisk.Originate(channel=f'PJSIP/{Agent.endpoint}',callerid='"Call-Controller"<11111>',context='agent-conf',extension=f'{Agent.endpoint}CONF')
+    res = asterisk.Originate(
+        channel=f'PJSIP/{Agent.endpoint}',
+        callerid='"Call-Controller"<11111>',
+        context='agent-conf',
+        extension='1'#f'{Agent.endpoint}CONF'
+        )
+    print(res)
     return JSONResponse('OK')
 
 @router.post("/dial/" , response_class=JSONResponse)
