@@ -4,6 +4,7 @@ from PyDialer.routes import (
     user,Agent,pjsip,AgentManager
     )
 from PyDialer import frontend
+from PyDialer.frontend import templates
 #Model.BaseORM.metadata.create_all(bind=session.engin)
 
 app = FastAPI()
@@ -12,6 +13,7 @@ app.include_router(user.router)
 app.include_router(pjsip.router)
 app.include_router(AgentManager.router)
 app.include_router(frontend.router)
+app.include_router(templates.router)
 
 app.mount('/static',StaticFiles(directory="PyDialer/static"), name="static")
 
