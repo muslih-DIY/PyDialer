@@ -2,3 +2,7 @@
 *__pycache__/
 *.db
 PBX/asterisk-18.14.0.tar.gz
+
+/// frontend related
+*.scss
+
