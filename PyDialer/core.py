@@ -1,9 +1,6 @@
-<<<<<<< HEAD
+
 from fastapi import FastAPI,Request,Depends
 from fastapi.responses import HTMLResponse
-=======
-from fastapi import FastAPI
->>>>>>> 77ed0040175878fd5d045cad5db5714acfad9463
 from fastapi.staticfiles import StaticFiles
 from PyDialer.routes import (
     user,admin ,Agent,pjsip,AgentManager

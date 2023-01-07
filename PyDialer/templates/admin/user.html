@@ -1,0 +1,33 @@
+{% extends "admin/home.html" %}
+
+
+
+
+<!-- Main content -->
+
+{% block main_content %}
+
+<p>
+    {{ users }}
+    <table>
+        <tr>
+        {% for row_header in users.0 %}
+        <th>{{ row_header }}</th>
+        {% endfor %}
+        </tr>
+    {% for user in users %}
+     <tr>
+        {% for value in user.values() %}
+        <td>
+          {{ value }}
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    
+
+      </table>
+
+</p>
+
+{% endblock %}

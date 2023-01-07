@@ -3,7 +3,7 @@
 <!-- main catogary -->
 
 {% block main_page_name %}
-      Agent
+      admin
 {% endblock %}
 
 <!-- sub catogary -->
@@ -17,8 +17,8 @@
 {% endblock %}
 
 {% block user_name %}
-      
-{% include 'blocks/user_name.html' %}
+
+ admin  
 
 {% endblock %}
 
@@ -35,6 +35,6 @@
 
 {% block main_content %}
 
-<p> Hi content</p>
+{% include 'admin/endpoint.html' %}
 
 {% endblock %}

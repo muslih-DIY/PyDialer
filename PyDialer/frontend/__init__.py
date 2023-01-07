@@ -1,2 +1,2 @@
 from .base_route import router
-from . import Home
+from . import Home,admin

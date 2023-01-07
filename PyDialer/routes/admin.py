@@ -58,7 +58,7 @@ async def user_edit(request: Request,user_data:UserUpdate):
     return user
 
 
-@router.post('/users' , response_model=List[Users])
+@router.get('/users' , response_model=List[Users])
 async def users_details(
     request: Request
     ):
@@ -90,7 +90,7 @@ async def user_edit(request: Request,group_data:GroupsUpdate):
     group.update(db=request.db,**group_data.dict())
     return group
 
-@router.get('/view/groups', response_model=List[DBGroup])
+@router.get('/groups', response_model=List[DBGroup])
 async def user_edit(request: Request,groupid:Optional[int]=None):
     try:
         if not groupid :
