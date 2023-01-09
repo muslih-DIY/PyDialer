@@ -5,6 +5,7 @@ from .asterisk_enum import (
     yesno_values,pjsip_transport_method_values
     )
 from .base import ORMBaseModel
+from . import asterisk_enum as asnum
 
 class PjsipBaseSchem(BaseModel):
     id:str
@@ -21,13 +22,17 @@ class Transport(PjsipBaseSchem):
 
 class DBTransport(ORMBaseModel,Transport):
     pass
+
 class BasicEndpoint(PjsipBaseSchem):
     transport:Optional[str] = None
-    context :Optional[str] = "from-internal"
+    context :Optional[str] = "agent-conf"
     allow :Optional[str] = 'ulaw,alaw,gsm,g726,g722,g723'
+    disallow:Optional[str] = None
     callerid:Optional[str] = None
-    dtmf_mode:Optional[str] ='rfc4733'
-    direct_media:Optional[yesno_values] = yesno_values.yes
+    dtmf_mode:Optional[asnum.pjsip_dtmf_mode_values_v3] = asnum.pjsip_dtmf_mode_values_v3.rfc4733
+    direct_media:Optional[asnum.yesno_values] = asnum.yesno_values.yes
+    rewrite_contact:Optional[asnum.yesno_values] = asnum.yesno_values.yes
+
 
 class BasicUpdateEndpoint(BaseModel):
     transport:Optional[str] = None
@@ -51,6 +56,5 @@ class BasicPsAOR(BaseModel):
     minimum_expiration : Optional[int] = 60
     remove_existing : yesno_values=yesno_values.yes
     qualify_frequency : Optional[int] =60
-
 
 

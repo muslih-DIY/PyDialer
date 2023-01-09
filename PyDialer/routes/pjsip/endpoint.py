@@ -7,18 +7,33 @@ from sqlalchemy import exc
 from PyDialer.schemas.pjsip import (
     BasicEndpoint,PjsipBaseSchem,DBEndpoints,
     BasicPsAuth,BasicPsAOR,BasicUpdateEndpoint)
+from PyDialer.schemas.asterisk import ps_endpoints    
 from PyDialer.models import asterisk
 from .base_route import router
 from ..user import validate_token
 
 ps_auth_id = lambda id :f"{id}-auth"
-    
+
+@router.post("/ps_endpoint/create", response_class=JSONResponse)
+async def ps_endpoint_create(request: Request,ps_endpoint:ps_endpoints):
+    db:Session = request.db
+    try:
+        asterisk.ps_endpoints.create(
+            db = db,
+            **ps_endpoint.dict())
+    except exc.IntegrityError:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail='Record already exist'
+            )
+
+    return JSONResponse('OK')    
 @router.post("/endpoint/create", response_class=JSONResponse)
 async def endpoint_create(
     request: Request,endpoint:BasicEndpoint,
     Auth:BasicPsAuth,AOR:BasicPsAOR):
     db:Session = request.db
-    user = request.User
+    
     endpoint.callerid = endpoint.callerid or f"'{Auth.username}' <{endpoint.id}>" 
     try:  
         ps_auth = asterisk.ps_auths.create(db = db,commit=False,id=ps_auth_id(endpoint.id),**Auth.dict())

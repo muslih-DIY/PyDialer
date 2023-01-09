@@ -73,11 +73,10 @@ def typemap(c_type,size,usertype,nullable,c,t):
     print("unknown type")
 
 def form_type(c_type,size,usertype,nullable,c,t,enum):
-
     required = lambda nullable: 'required' if nullable=='NO' else ''
-    options = lambda v : '\n'.join([f'<option value="{name}">{name}</option>' for name in v[1].split('|')])
+    options = lambda t : '\n'.join([f'<option value="{name}">{name}</option>' for name in t.split('|')])
     label_input = lambda c,n,t :f"""
-<div>
+<div class="col-md-4">
 <label for="{c}">{c}:</label>
 <input type="{t}" id="{c}" name="{c}" {required(n)}>
 </div>
@@ -92,7 +91,7 @@ def form_type(c_type,size,usertype,nullable,c,t,enum):
 
     if usertype:
         return  f"""
-<div>
+<div class="col-md-4">
 <label for="{c}">{c}:</label>
   <select d="{c}" name="{c}" {required(nullable)}>
     {options(enum)}
@@ -121,6 +120,7 @@ with con.cursor() as cur:
     tables = [c[0] for c in cur.fetchall()]
     cur.execute(sql_usertype)
     usertype_list = cur.fetchall()
+    usertype__dict = {tp:values for tp,values in usertype_list}
 
     with open(os.path.join('models',f"__init__.py"),'w') as initf:
         for t in tables:
@@ -156,7 +156,7 @@ with con.cursor() as cur:
                 data.sort(key=lambda s : s[1])
                 for r in data:
                     c,nullable,c_type,size,usertype = r
-                    f.writelines(form_type(c_type,size,usertype,nullable,c,t,enum=usertype_list[usertype]))
+                    f.writelines(form_type(c_type,size,usertype,nullable,c,t,enum=usertype__dict.get(c_type,'')))
     
     with open(os.path.join('enum_schema',"schemas.py"),'w') as f:
         f.writelines(schama_base)

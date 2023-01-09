@@ -1,162 +1,179 @@
 
-<div>
+<div class="col-md-4">
 <label for="id">id:</label>
 <input type="text" id="id" name="id" required>
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="allow_sending_180_after_183">allow_sending_180_after_183:</label>
   <select d="allow_sending_180_after_183" name="allow_sending_180_after_183" >
-    <option value="yes">yes</option>
+    <option value="0">0</option>
+<option value="1">1</option>
+<option value="off">off</option>
+<option value="on">on</option>
+<option value="false">false</option>
+<option value="true">true</option>
 <option value="no">no</option>
-<option value="aes128">aes128</option>
+<option value="yes">yes</option>
   </select>
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="max_forwards">max_forwards:</label>
 <input type="number" id="max_forwards" name="max_forwards" >
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="unidentified_request_prune_interval">unidentified_request_prune_interval:</label>
 <input type="number" id="unidentified_request_prune_interval" name="unidentified_request_prune_interval" >
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="mwi_tps_queue_high">mwi_tps_queue_high:</label>
 <input type="number" id="mwi_tps_queue_high" name="mwi_tps_queue_high" >
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="mwi_tps_queue_low">mwi_tps_queue_low:</label>
 <input type="number" id="mwi_tps_queue_low" name="mwi_tps_queue_low" >
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="mwi_disable_initial_unsolicited">mwi_disable_initial_unsolicited:</label>
   <select d="mwi_disable_initial_unsolicited" name="mwi_disable_initial_unsolicited" >
     <option value="yes">yes</option>
 <option value="no">no</option>
-<option value="aes128">aes128</option>
   </select>
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="ignore_uri_user_options">ignore_uri_user_options:</label>
   <select d="ignore_uri_user_options" name="ignore_uri_user_options" >
     <option value="yes">yes</option>
 <option value="no">no</option>
-<option value="aes128">aes128</option>
   </select>
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="use_callerid_contact">use_callerid_contact:</label>
   <select d="use_callerid_contact" name="use_callerid_contact" >
-    <option value="yes">yes</option>
+    <option value="0">0</option>
+<option value="1">1</option>
+<option value="off">off</option>
+<option value="on">on</option>
+<option value="false">false</option>
+<option value="true">true</option>
 <option value="no">no</option>
-<option value="aes128">aes128</option>
+<option value="yes">yes</option>
   </select>
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="send_contact_status_on_update_registration">send_contact_status_on_update_registration:</label>
   <select d="send_contact_status_on_update_registration" name="send_contact_status_on_update_registration" >
-    <option value="yes">yes</option>
+    <option value="0">0</option>
+<option value="1">1</option>
+<option value="off">off</option>
+<option value="on">on</option>
+<option value="false">false</option>
+<option value="true">true</option>
 <option value="no">no</option>
-<option value="aes128">aes128</option>
+<option value="yes">yes</option>
   </select>
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="taskprocessor_overload_trigger">taskprocessor_overload_trigger:</label>
   <select d="taskprocessor_overload_trigger" name="taskprocessor_overload_trigger" >
-    <option value="yes">yes</option>
-<option value="no">no</option>
-<option value="aes128">aes128</option>
+    <option value="none">none</option>
+<option value="global">global</option>
+<option value="pjsip_only">pjsip_only</option>
   </select>
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="norefersub">norefersub:</label>
   <select d="norefersub" name="norefersub" >
-    <option value="yes">yes</option>
+    <option value="0">0</option>
+<option value="1">1</option>
+<option value="off">off</option>
+<option value="on">on</option>
+<option value="false">false</option>
+<option value="true">true</option>
 <option value="no">no</option>
-<option value="aes128">aes128</option>
+<option value="yes">yes</option>
   </select>
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="max_initial_qualify_time">max_initial_qualify_time:</label>
 <input type="number" id="max_initial_qualify_time" name="max_initial_qualify_time" >
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="keep_alive_interval">keep_alive_interval:</label>
 <input type="number" id="keep_alive_interval" name="keep_alive_interval" >
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="contact_expiration_check_interval">contact_expiration_check_interval:</label>
 <input type="number" id="contact_expiration_check_interval" name="contact_expiration_check_interval" >
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="disable_multi_domain">disable_multi_domain:</label>
   <select d="disable_multi_domain" name="disable_multi_domain" >
     <option value="yes">yes</option>
 <option value="no">no</option>
-<option value="aes128">aes128</option>
   </select>
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="unidentified_request_count">unidentified_request_count:</label>
 <input type="number" id="unidentified_request_count" name="unidentified_request_count" >
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="unidentified_request_period">unidentified_request_period:</label>
 <input type="number" id="unidentified_request_period" name="unidentified_request_period" >
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="user_agent">user_agent:</label>
 <input type="text" id="user_agent" name="user_agent" >
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="default_outbound_endpoint">default_outbound_endpoint:</label>
 <input type="text" id="default_outbound_endpoint" name="default_outbound_endpoint" >
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="debug">debug:</label>
 <input type="text" id="debug" name="debug" >
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="endpoint_identifier_order">endpoint_identifier_order:</label>
 <input type="text" id="endpoint_identifier_order" name="endpoint_identifier_order" >
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="default_voicemail_extension">default_voicemail_extension:</label>
 <input type="text" id="default_voicemail_extension" name="default_voicemail_extension" >
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="default_from_user">default_from_user:</label>
 <input type="text" id="default_from_user" name="default_from_user" >
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="default_realm">default_realm:</label>
 <input type="text" id="default_realm" name="default_realm" >
 </div>
 
-<div>
+<div class="col-md-4">
 <label for="regcontext">regcontext:</label>
 <input type="text" id="regcontext" name="regcontext" >
 </div>

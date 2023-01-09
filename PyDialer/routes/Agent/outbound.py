@@ -17,7 +17,7 @@ async def login(request: Request,Agent:Agent):
         channel=f'PJSIP/{Agent.endpoint}',
         callerid='"Call-Controller"<11111>',
         context='agent-conf',
-        extension='1'#f'{Agent.endpoint}CONF'
+        extension='123'#f'{Agent.endpoint}CONF'
         )
     print(res)
     return JSONResponse('OK')

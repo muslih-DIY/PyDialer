@@ -6,5 +6,5 @@ _PASSWORD = 'admin123'
 
 asterisk = Asterisk_Ami(_HOST,user=_USERNAME,password=_PASSWORD)
 
-#asterisk.connect()
+asterisk.connect()
 print("manager got connected :",asterisk.is_alive())

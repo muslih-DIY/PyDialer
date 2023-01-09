@@ -1,0 +1,117 @@
+<form id="extentions" class="row g-3" method="post" action="/pjsip/ps_endpoint/create">
+
+  {% include 'admin/forms/agent_endpoint.html' %}
+  
+  <button type="button" class="btn btn-primary btn-sm w-10" onclick="formpost('/pjsip/endpoint/create')">Create</button>
+  <button type="button" class="btn btn-primary btn-sm w-10" onclick="formpostdelete('/pjsip/endpoint/remove')">delete</button>
+  <button type="button" class="btn btn-primary btn-sm w-10" onclick="formpostupdate('/pjsip/endpoint/update')">update</button>
+  </form>
+  
+  <script>
+        function openCity(evt, tagname) {
+          var i, tabcontent, tablinks;
+          tabcontent = document.getElementsByClassName("tabcontent");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
+          tablinks = document.getElementsByClassName("tablinks");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+          }
+          document.getElementById(tagname).style.display = "block";
+          evt.currentTarget.className += " active";
+        }
+        openCity(event, 'Basic');
+        
+        async function formpost(url){
+              event.preventDefault();
+              const form = document.getElementById('extentions');
+              var input = JSON.stringify({                       
+                    "endpoint": {
+                          "id":form.querySelector('input[name=id]').value,
+                          "transport": form.querySelector('input[name=transport]').value,
+                          "context": form.querySelector('input[name=context]').value,
+                          "allow": form.querySelector('input[name=allow]').value,
+                          "disallow": form.querySelector('input[name=disallow]').value,
+                          "dtmf_mode": form.querySelector('select[name=dtmf_mode]').value,
+                          "direct_media": form.querySelector('select[name=direct_media]').value,
+                          "rewrite_contact":form.querySelector('select[name=rewrite_contact]').value
+                          },
+                          "Auth": {
+                          "username": form.querySelector('input[name=username]').value,
+                          "password": form.querySelector('input[name=password]').value,
+            
+                          },
+                          "AOR": {
+                          "contact": form.querySelector('input[name=contact]').value,
+                          "remove_existing": form.querySelector('select[name=remove_existing]').value,
+                          }
+                    });
+              response = await fetch(url,{
+              method: 'POST', // or 'PUT'
+              headers: {
+                      'Content-Type': 'application/json',
+                  },
+              body:input ,
+              
+           }
+        );
+  
+        }
+  
+        async function formpostdelete(url){
+              event.preventDefault();
+              const form = document.getElementById('extentions');
+              var input = JSON.stringify({"id":form.querySelector('input[name=id]').value});
+              response = await fetch(url,{
+              method: 'POST', // or 'PUT'
+              headers: {
+                      'Content-Type': 'application/json',
+                  },
+              body:input ,
+              
+           }
+        );
+  
+        }
+        
+        async function formpostupdate(url){
+              event.preventDefault();
+              const form = document.getElementById('extentions');
+              var input = JSON.stringify({
+                    "pjsip": {
+                          "id":form.querySelector('input[name=id]').value},
+                    "endpoint": {                        
+                          "transport": form.querySelector('input[name=transport]').value,
+                          "context": form.querySelector('input[name=context]').value,
+                          "allow": form.querySelector('input[name=allow]').value,
+                          "disallow": form.querySelector('input[name=disallow]').value,
+                          "dtmf_mode": form.querySelector('select[name=dtmf_mode]').value,
+                          "direct_media": form.querySelector('select[name=direct_media]').value,
+                          "rewrite_contact":form.querySelector('select[name=rewrite_contact]').value
+                          },
+                          "Auth": {
+                          "username": form.querySelector('input[name=username]').value,
+                          "password": form.querySelector('input[name=password]').value,
+            
+                          },
+                          "AOR": {
+                          "contact": form.querySelector('input[name=contact]').value,
+                          "remove_existing": form.querySelector('select[name=remove_existing]').value,
+                          }
+                    });
+              response = await fetch(url,{
+              method: 'POST', // or 'PUT'
+              headers: {
+                      'Content-Type': 'application/json',
+                  },
+              body:input ,
+              
+           }
+        );
+  
+        }
+  
+  
+  </script>
+  </div>
